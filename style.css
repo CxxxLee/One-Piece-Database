@@ -1,0 +1,65 @@
+#pirateDisplay {
+    text-align: center;
+    margin-top: 20px;
+}
+#pirateDisplay img {
+    width: 200px;
+    height: auto;
+}
+button {
+    margin: 10px;
+}
+fieldset{
+    background-image: url('img/background.jpg');
+    background-size: cover;
+    width: 500px;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.navSection {
+    background-image: url('img/room.avif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    border-color: black;
+    height: 80px;
+}
+.actionSection {
+    background-image: url('img/buggy.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: center;
+    border-color: black;
+    height: 80px;
+}  
+legend {
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+}
+body{
+    background-image: url('img/background.webp');
+    background-size: cover;
+}
+
+.uploadFile{
+    color:red;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+
+}
+th, td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    background-color: #f2f2f2;
+    color: black;
+}

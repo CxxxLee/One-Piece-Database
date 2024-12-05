@@ -1,0 +1,65 @@
+[
+    {
+        "Name": " Monkey D Luffy",
+        "Bounty": 3000000000,
+        "Position": "Captain",
+        "affiliation": "The Straw Hats",
+        "Devil fruit": true,
+        "img": "img\/luffy.gif",
+        "id": 1
+    },
+    {
+        "Name": " Roronoa Zoro",
+        "Bounty": 1111000000,
+        "Position": "Right-hand-man",
+        "affiliation": "The Straw Hats",
+        "Devil fruit": false,
+        "img": "img\/zoro.jpg",
+        "id": 2
+    },
+    {
+        "Name": " Marshall D Teach",
+        "Bounty": 3996000000,
+        "Position": "Captain",
+        "affiliation": "Blackbeard Pirates",
+        "Devil fruit": true,
+        "img": "img\/blackbeard.jpg",
+        "id": 3
+    },
+    {
+        "Name": " Tom",
+        "Bounty": 40000000,
+        "Position": "Shipwright",
+        "affiliation": "The Roger Pirates",
+        "Devil fruit": false,
+        "img": "img\/Tom.jpg",
+        "id": 4
+    },
+    {
+        "Name": " Hogback",
+        "Bounty": 0,
+        "Position": "Doctor",
+        "affiliation": "Thriller Bark Pirates",
+        "Devil fruit": false,
+        "img": "img\/hogback.jpg",
+        "id": 5
+    },
+    {
+        "Name": "Eustass Kid",
+        "Position": "Captain",
+        "affiliation": "The Kid Pirates",
+        "Bounty": 1000,
+        "Devil fruit": true,
+        "img": "img\/OP.png",
+        "id": 6
+    },
+    {
+        "Name": "Chopper",
+        "Position": "Cook",
+        "affiliation": "The Straw Hats",
+        "Bounty": 100,
+        "Devil fruit": true,
+        "img": "img\/OP.png",
+        "id": 7
+    }
+]

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece Databook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<fieldset>
+        <legend>One Piece Databook</legend>
+        <p>Use the navigation buttons to view information about different pirates.</p>
+    <div id="pirateDisplay">
+        <label for="pirateName">Name:</label>
+        <input type="text" id="pirateName"><br>
+
+        <label for="piratePosition">Position: </label>
+        <select id="piratePosition">
+            <!-- Positions will be populated -->
+        </select><br>
+
+        <label for="affiliation">Affiliation:</label>
+        <input type="text" id="affiliation"><br>
+
+        <label for="pirateBounty">Bounty:</label>
+        <input type="text" id="pirateBounty"><br>
+
+        <label for="pirateDevilFruit">Devil Fruit:</label>
+        <input type="checkbox" id="pirateDevilFruit"><br>
+
+        <img id="pirateImage" src="" alt="Pirate Image">
+        
+    </div>
+</fieldset>
+
+<fieldset class="navSection">
+    <div>
+        <div id="nav-btn">
+            <button id="prevButton">Previous</button>
+            <button id="nextButton">Next</button>
+            <button id="firstButton">First</button>
+            <button id="lastButton">Last</button>
+            <p>Current Pirate: <span id="currentPosition"></span></p>
+
+        </div>
+    </div>
+</fieldset>
+
+<fieldset class="actionSection">
+    <div id="edit-btn">
+        <button id="editButton">Edit</button>
+        <button id="Insert">Insert</button>
+        <button id="Delete">Delete</button>
+        <button id="Save">Save</button>
+        <button id="Sort">Sort</button>
+        <button id="SaveAll">Save All</button>
+        
+    </div>
+
+</fieldset>
+<form class="uploadFile" action="uploadfile.php" method="post" enctype="multipart/form-data">
+    <p>Select an image to upload:</p>
+	<ul>
+	<li><input type="file" name="fileup" id="fileup"></li>
+    <li><input type="submit" value="Upload Image" name="submit"></li>
+	</ul>
+</form>
+<script src="functions.js"></script>
+<!-- Table to display pirates (already exists in your app) -->
+ <fieldset class="pirateTable">
+<table id="piratesTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Bounty</th>
+            <th>Position</th>
+            <th>Affiliation</th>
+            <th>Devil Fruit</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Existing pirate data rows -->
+    </tbody>
+</table>
+
+<!-- Table to display executed queries -->
+<h3>Executed Queries</h3>
+<table id="queriesTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Query</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Populated dynamically by JavaScript -->
+    </tbody>
+</table>
+</fieldset>
+
+</body>
+</html>
