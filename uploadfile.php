@@ -1,50 +1,40 @@
 <?php
+// Ensure JSON response format
+header('Content-Type: application/json');
 
-// You should have file_uploads = On in C:\xampp\php\php.ini (if you have xampp)
-
-$target_dir = "uploads/"; // directory where the file will be uploaded
-$target_file = $target_dir . basename($_FILES["fileup"]["name"]);
-
-$uploadOk = 1;
-$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-
-// Check if the file is an image or not
-if (isset($_POST["submit"])) {
-    $check = getimagesize($_FILES["fileup"]["tmp_name"]);
-    if ($check !== false) {
-        $uploadOk = 1;
-    } else {
-        $uploadOk = 0;
+try {
+    $target_dir = "img/uploads/"; // Adjust the directory as needed
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0755, true); // Create directory if it doesn't exist
     }
-}
 
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
+    // Check if the file was uploaded
+    if (isset($_FILES['fileup'])) {
+        $file = $_FILES['fileup'];
+        $target_file = $target_dir . basename($file["name"]);
 
-// Check file size (max size = 500KB)
-if ($_FILES["fileup"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
+        // Handle upload errors
+        if ($file["error"] !== UPLOAD_ERR_OK) {
+            throw new Exception("File upload error: " . $file["error"]);
+        }
 
-// Only allow certain file formats (JPG, PNG, JPEG)
-if ($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png") {
-    echo "Sorry, only JPG, JPEG, and PNG files are allowed.";
-    $uploadOk = 0;
-}
-
-// If there were no errors, move the file
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-} else {
-    if (move_uploaded_file($_FILES["fileup"]["tmp_name"], $target_file)) {
-        // Image uploaded successfully, return image path
-        echo json_encode(["success" => true, "imagePath" => $target_file]);
+        // Move the file to the target directory
+        if (move_uploaded_file($file["tmp_name"], $target_file)) {
+            echo json_encode([
+                "success" => true,
+                "imagePath" => $target_file
+            ]);
+        } else {
+            throw new Exception("Failed to move uploaded file.");
+        }
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        throw new Exception("No file uploaded.");
     }
+} catch (Exception $e) {
+    // Return an error response
+    echo json_encode([
+        "success" => false,
+        "message" => $e->getMessage()
+    ]);
 }
 ?>

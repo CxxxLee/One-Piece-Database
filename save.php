@@ -11,6 +11,13 @@ $input = file_get_contents('php://input');
 // Decodes JSON data
 $data = json_decode($input, true);
 
+// Prepare a response array
+$response = [
+    'success' => false,
+    'message' => '',
+    'errors' => [],
+];
+
 // Check if the 'data' is set
 if ($data && isset($data['data'])) {
     // Create connection to the database
@@ -18,18 +25,20 @@ if ($data && isset($data['data'])) {
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        $response['message'] = "Connection failed: " . $conn->connect_error;
+        echo json_encode($response); // Output the error as JSON
+        exit;
     }
 
     // Prepare the SQL statement for inserting or updating pirates
-    $sql = "INSERT INTO Pirates (`Name`, Bounty, Position, Affiliation, `Devil fruit`, img) 
-            VALUES (?, ?, ?, ?, ?, ?) 
-            ON DUPLICATE KEY UPDATE 
-            `Name` = VALUES(`Name`), 
-            Bounty = VALUES(Bounty), 
-            Position = VALUES(Position), 
-            Affiliation = VALUES(Affiliation), 
-            `Devil fruit` = VALUES(`Devil fruit`), 
+    $sql = "INSERT INTO Pirates (`Name`, Bounty, Position, Affiliation, `Devil fruit`, img)
+            VALUES (?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+            `Name` = VALUES(`Name`),
+            Bounty = VALUES(Bounty),
+            Position = VALUES(Position),
+            Affiliation = VALUES(Affiliation),
+            `Devil fruit` = VALUES(`Devil fruit`),
             img = VALUES(img)";
 
     if ($stmt = $conn->prepare($sql)) {
@@ -46,22 +55,29 @@ if ($data && isset($data['data'])) {
             $stmt->bind_param("sssiss", $name, $bounty, $position, $affiliation, $devilFruit, $img);
 
             if (!$stmt->execute()) {
-                echo "Error saving pirate: " . $stmt->error . "<br>";
+                $response['errors'][] = "Error saving pirate: " . $stmt->error;
             }
         }
 
-        echo 'Data successfully saved.';
-        
+        // Indicate success if there were no errors
+        if (empty($response['errors'])) {
+            $response['success'] = true;
+            $response['message'] = 'Data successfully saved.';
+        }
+
         // Close the prepared statement
         $stmt->close();
     } else {
-        echo "Failed to prepare SQL statement: " . $conn->error;
+        $response['message'] = "Failed to prepare SQL statement: " . $conn->error;
     }
 
     // Close the connection
     $conn->close();
 } else {
-    echo 'No data found to save.';
+    $response['message'] = 'No data found to save.';
 }
 
+// Return the JSON response
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>

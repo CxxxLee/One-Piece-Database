@@ -59,7 +59,7 @@ function displayPirate(index) {
     document.getElementById('affiliation').value = pirate.Affiliation;
     document.getElementById('pirateBounty').value = pirate.Bounty.toLocaleString() + " Berries";
     document.getElementById('pirateDevilFruit').checked = pirate['Devil fruit'];
-    document.getElementById('pirateImage').src = pirate.img;
+    document.getElementById('pirateImage').src = pirate.img || 'img/default.png'; // Fallback image
 
     // Select the pirate's current position in the dropdown
     document.getElementById('piratePosition').value = pirate.Position;
@@ -165,10 +165,10 @@ document.getElementById('Insert').addEventListener('click', function () {
     const newPirate = {
         Name: '',
         Position: '', // placeholder for dropdown
-        affiliation: '',
+        Affiliation: '',
         Bounty: 0,
         'Devil fruit': false,
-        img: 'OP.png' // Placeholder image or default
+        img: 'img/OP.png' // Placeholder image or default
     };
         
     const httpRequest = new XMLHttpRequest();
@@ -243,9 +243,29 @@ document.getElementById('Delete').addEventListener('click', function () {
     httpRequest.send(JSON.stringify({ id: itemId }));
 });
 
-        
+// Save button to update the local pirate data (JSON array)
+document.getElementById('Save').addEventListener('click', function() {
+    const pirate = pirates[currentIndex];  // Get the pirate currently being edited        
+
+    // Update the pirate object with values from the form
+    pirate.Name = document.getElementById('pirateName').value;
+    pirate.Position = document.getElementById('piratePosition').value;
+    pirate.Affiliation = document.getElementById('affiliation').value;
+    pirate.Bounty = parseInt(document.getElementById('pirateBounty').value.replace(/[^0-9]/g, ''), 10) || 0;
+    pirate['Devil fruit'] = document.getElementById('pirateDevilFruit').checked;
+    pirate.img = document.getElementById('pirateImagePath').value;  // Assuming you have an img input
+
+    console.log(JSON.stringify(pirates));  // Log the updated pirates array for debugging
+
+    // Save this array to localStorage or sessionStorage if needed for persistence across page reloads
+    localStorage.setItem('piratesData', JSON.stringify(pirates));
+});
+ 
+/*
 // Save button
 document.getElementById('Save').addEventListener('click', function() {
+    let httpRequest = new XMLHttpRequest();
+
     const pirate = pirates[currentIndex];  // Get the pirate currently being edited        
     // Update the pirate object with values from the form
     pirate.Name = document.getElementById('pirateName').value;
@@ -253,16 +273,25 @@ document.getElementById('Save').addEventListener('click', function() {
     pirate.Affiliation = document.getElementById('affiliation').value;
     pirate.Bounty = parseInt(document.getElementById('pirateBounty').value.replace(/[^0-9]/g, ''), 10) || 0;
     pirate['Devil fruit'] = document.getElementById('pirateDevilFruit').checked;
-    pirate.img = document.getElementById('pirateImg').value;  // Assuming you have an img input
+    pirate.img = document.getElementById('pirateImagePath').value;  // Assuming you have an img input
         
     // Create the payload with the updated pirate data
     const dataToSend = { data: pirates };  // Send the whole pirates array or just the updated pirate        
-    const httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function() {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
-                const response = JSON.parse(httpRequest.responseText);
-                alert('Data saved successfully.');
+                try {
+                    const response = JSON.parse(httpRequest.responseText);
+                    if (response.success) {
+                        alert(response.message); // Show success message
+                    } else {
+                        alert(response.message || 'An error occurred.');
+                        console.error(response.errors); // Log any errors
+                    }
+                } catch (error) {
+                    console.error('Invalid JSON response:', httpRequest.responseText);
+                    alert('Unexpected response from the server.');
+                }
             } else {
                 alert('There was a problem saving the data.');
             }
@@ -276,17 +305,48 @@ document.getElementById('Save').addEventListener('click', function() {
     // Send the updated pirate data
     httpRequest.send(JSON.stringify(dataToSend));  
 });
-                
+    
+*/
 // Sort button
 document.getElementById('Sort').addEventListener('click', function() {
     pirates.sort((a, b) => a.Name.localeCompare(b.Name));
     displayPirate(currentIndex);
 });
         
+
+// Save all button
+document.getElementById('SaveAll').addEventListener('click', function() {
+    const dataToSend = { data: pirates };  // Send the entire pirates array
+
+    const httpRequest = new XMLHttpRequest();
+    httpRequest.onreadystatechange = function() {
+        if (httpRequest.readyState === XMLHttpRequest.DONE) {
+            if (httpRequest.status === 200) {
+                console.log(httpRequest.responseText); // Log the response to see the raw output
+                try {
+                    const response = JSON.parse(httpRequest.responseText);
+                    alert('Data saved successfully.');
+                } catch (e) {
+                    alert('Failed to parse JSON: ' + e.message);
+                }
+            } else {
+                alert('There was a problem saving the data.');
+            }
+        }
+    };
+
+    httpRequest.open('POST', 'saveAll.php');
+    httpRequest.setRequestHeader('Content-Type', 'application/json');
+    httpRequest.send(JSON.stringify(dataToSend));
+});
+
+/*
 // Save all button
 document.getElementById('SaveAll').addEventListener('click', function () {
     const httpRequest = new XMLHttpRequest();
-        
+    
+    console.log(JSON.stringify({ updatedItems: pirates }));
+
     httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
@@ -315,71 +375,55 @@ document.getElementById('SaveAll').addEventListener('click', function () {
     httpRequest.setRequestHeader('Content-Type', 'application/json');
     httpRequest.send(JSON.stringify({ updatedItems: pirates }));
 });
+*/
 
-// Upload file form
+// Upload file function
 function uploadFile() {
     const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
-   
+
     if (file) {
         const formData = new FormData();
         formData.append('fileup', file);
+
+        const xhr = new XMLHttpRequest();
+
         xhr.open('POST', 'uploadfile.php', true);
 
-
+        // Handle the response
         xhr.onload = function () {
             if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    const imagePath = response.imagePath; // Get the uploaded image path
-   
-                    // Update the pirate image field (for example, assuming a field with ID 'pirateImage')
-                    document.getElementById('pirateImage').src = imagePath;
-   
-                    // Optionally, store the image path in a hidden field if you need to save it later
-                    document.getElementById('pirateImagePath').value = imagePath;
-                } else {
-                    alert('Error uploading the file.');
+                try {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        const imagePath = response.imagePath;
+
+                        // Update the image on the page
+                        document.getElementById('pirateImage').src = imagePath;
+
+                        // Optionally save the image path in a hidden field
+                        document.getElementById('pirateImagePath').value = imagePath;
+                    } else {
+                        alert(response.message || 'An error occurred during file upload.');
+                    }
+                } catch (error) {
+                    console.error('Invalid JSON response:', xhr.responseText);
+                    alert('Server returned an invalid response. Check the console for details.');
                 }
             } else {
                 alert('An error occurred while uploading the file.');
             }
         };
-        xhr.send(formData); // Send the form data to PHP
-    }else{
+
+        // Send the file
+        xhr.send(formData);
+    } else {
         alert('Please select a file to upload.');
     }
 }
+
+
  
-document.querySelector('.uploadFile').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
-
-    const formData = new FormData(this); // Get form data, including the file
-
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', 'uploadfile.php', true);
-
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                const imagePath = response.imagePath; // Get the uploaded image path
-
-                // Update the pirate image field (for example, assuming a field with ID 'pirateImage')
-                document.getElementById('pirateImage').src = imagePath;
-
-                // Optionally, store the image path in a hidden field if you need to save it later
-                document.getElementById('pirateImagePath').value = imagePath;
-            } else {
-                alert('Error uploading the file.');
-            }
-        } else {
-            alert('An error occurred while uploading the file.');
-        }
-    };
-
-    xhr.send(formData); // Send the form data to PHP
-});
 
 
         
