@@ -41,9 +41,24 @@ legend {
     color: white;
     padding: 5px 10px;
 }
+.videoBackground {
+    position: fixed; /* Fix the video to the background */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure the video is behind everything else */
+}
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video is fully visible without cropping */
+}
 body{
-    background-image: url('img/background.webp');
+    /*background-image: url('img/ship5.gif');*/
     background-size: cover;
+    z-index: 1;
+    margin: 0;
 }
 
 .uploadFile{

@@ -315,7 +315,42 @@ document.getElementById('SaveAll').addEventListener('click', function () {
     httpRequest.setRequestHeader('Content-Type', 'application/json');
     httpRequest.send(JSON.stringify({ updatedItems: pirates }));
 });
-        
+
+// Upload file form
+function uploadFile() {
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+   
+    if (file) {
+        const formData = new FormData();
+        formData.append('fileup', file);
+        xhr.open('POST', 'uploadfile.php', true);
+
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    const imagePath = response.imagePath; // Get the uploaded image path
+   
+                    // Update the pirate image field (for example, assuming a field with ID 'pirateImage')
+                    document.getElementById('pirateImage').src = imagePath;
+   
+                    // Optionally, store the image path in a hidden field if you need to save it later
+                    document.getElementById('pirateImagePath').value = imagePath;
+                } else {
+                    alert('Error uploading the file.');
+                }
+            } else {
+                alert('An error occurred while uploading the file.');
+            }
+        };
+        xhr.send(formData); // Send the form data to PHP
+    }else{
+        alert('Please select a file to upload.');
+    }
+}
+ 
 document.querySelector('.uploadFile').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
 

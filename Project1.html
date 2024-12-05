@@ -8,6 +8,11 @@
 </head>
 <body>
 
+<div class="videoBackground">
+    <video autoplay muted loop id="myVideo">
+        <source src="img/ship6.mp4" type="video/mp4">
+    </video>
+</div> 
 <fieldset>
         <legend>One Piece Databook</legend>
         <p>Use the navigation buttons to view information about different pirates.</p>
@@ -55,17 +60,12 @@
         <button id="Save">Save</button>
         <button id="Sort">Sort</button>
         <button id="SaveAll">Save All</button>
-        
+        <button type="button" onclick="document.getElementById('fileInput').click()">Upload Image</button>
+        <input type="file" id="fileInput" style="display: none;" onchange="uploadFile()">
     </div>
 
 </fieldset>
-<form class="uploadFile" action="uploadfile.php" method="post" enctype="multipart/form-data">
-    <p>Select an image to upload:</p>
-	<ul>
-	<li><input type="file" name="fileup" id="fileup"></li>
-    <li><input type="submit" value="Upload Image" name="submit"></li>
-	</ul>
-</form>
+
 <script src="functions.js"></script>
 <!-- Table to display pirates (already exists in your app) -->
  <fieldset class="pirateTable">
