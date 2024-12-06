@@ -6,6 +6,7 @@
     width: 200px;
     height: auto;
 }
+
 button {
     margin: 10px;
 }
@@ -70,7 +71,7 @@ fieldset{
     border-collapse: collapse;
 }
 .navSection, .actionSection{
-    background-color: rgba(255, 255, 255, 0.5); /* White background with 50% transparency */
+    background-color: rgba(255, 255, 255, 0.3); /* White background with 50% transparency */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -161,6 +162,13 @@ tr:hover {
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     margin-bottom: 4px;
+    transition: opacity 0.3s ease; /* Smooth transition for opacity change */
+
+}
+
+#pirateDisplay img:hover {
+    filter: brightness(1.2); 
+    opacity: 0.5;
 }
 
 .query-display {
