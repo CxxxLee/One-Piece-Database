@@ -66,10 +66,12 @@ loadPirates();
 // Function to display a pirate by index
 function displayPirate(index) {
     const pirate = pirates[index];
+    console.log('Displaying pirate:', pirate);
+    
     document.getElementById('pirateName').value = pirate.Name;
     document.getElementById('affiliation').value = pirate.Affiliation;
     document.getElementById('pirateBounty').value = pirate.Bounty.toLocaleString() + " Berries";
-    document.getElementById('pirateDevilFruit').checked = pirate['Devil fruit'];
+    document.getElementById('pirateDevilFruit').checked = pirate['Devil fruit'] === '1';  // Check if the value is '1'
     document.getElementById('pirateImage').src = pirate.img || 'img/default.png'; // Fallback image
 
     // Select the pirate's current position in the dropdown
@@ -81,6 +83,7 @@ function displayPirate(index) {
     // Update the table to show only the current pirate (You can use this function for the table)
     updateQueryTable(pirate);
 }
+
 
 
 
@@ -387,7 +390,7 @@ function updateQueryTable(pirate) {
         <td>${pirate.Position}</td>
         <td>${pirate.Affiliation}</td>
         <td>${pirate.Bounty.toLocaleString()}</td>
-        <td>${pirate['Devil fruit'] === '0' ? 'True' : 'False'}</td>
+        <td>${pirate['Devil fruit'] === '1' ? 'True' : 'False'}</td>
         <td>${pirate.img}</td>
     `;
     tableBody.appendChild(row);
