@@ -45,21 +45,48 @@
         "id": 5
     },
     {
-        "Name": "Eustass Kid",
+        "Name": " Eustass Kid",
         "Position": "Captain",
-        "affiliation": "The Kid Pirates",
-        "Bounty": 1000,
+        "affiliation": "Kid Pirates",
+        "Bounty": 3000000000,
         "Devil fruit": true,
-        "img": "img\/OP.png",
+        "img": "img\/kid.webp",
         "id": 6
     },
     {
-        "Name": "Chopper",
+        "Name": " Nico Robin",
+        "Position": "Archaeologist",
+        "affiliation": "The Straw Hats",
+        "Bounty": 130000000,
+        "Devil fruit": true,
+        "img": "img\/nico.jpg",
+        "id": 7
+    },
+    {
+        "Name": " Chopper",
         "Position": "Cook",
         "affiliation": "The Straw Hats",
-        "Bounty": 100,
+        "Bounty": 1000,
         "Devil fruit": true,
-        "img": "img\/OP.png",
-        "id": 7
-    }
+        "img": "img\/chopper.webp",
+        "id": 8
+    },
+    {
+        "Name": " Edward Newgate",
+        "Position": "Captain",
+        "affiliation": "Whitebeard Pirates",
+        "Bounty": 5500000000,
+        "Devil fruit": true,
+        "img": "img\/WB.jpg",
+        "id": 9
+    },
+    {
+        "Name": " Bepo",
+        "Position": "Navigator",
+        "affiliation": "The Heart Pirates",
+        "Bounty": 500,
+        "Devil fruit": false,
+        "img": "img\/bepo.jpg",
+        "id": 10
+    }   
 ]

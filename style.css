@@ -10,32 +10,34 @@ button {
     margin: 10px;
 }
 fieldset{
-    background-image: url('img/background.jpg');
+    /*background-image: url('img/background.jpg');*/
+    background-color: rgba(173, 216, 230, 0.5); /* Light blue with 50% transparency */
     background-size: cover;
     width: 500px;
     margin: 0 auto;
     padding: 10px;
-    border: 1px solid black;
+    border: 2px solid black;
     border-collapse: collapse;
 }
-.navSection {
-    background-image: url('img/room.avif');
+.navSection, .actionSection{
+    /*background-image: url('img/room.avif');*/
+    background-color: rgba(255, 255, 255, 0.5); /* White background with 50% transparency */
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;
     border-color: black;
     height: 80px;
+    border-collapse: collapse;
 }
-.actionSection {
-    background-image: url('img/buggy.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    text-align: center;
-    border-color: black;
-    height: 80px;
-}  
+
+.pirateTable{
+    background-color: rgba(255, 255, 255, 0.5); /* White background with 50% transparency */
+    width: 95%;
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+
 legend {
     background-color: black;
     color: white;
@@ -78,3 +80,36 @@ th, td {
     background-color: #f2f2f2;
     color: black;
 }
+
+button {
+    margin: 10px;
+    border-radius: 15px; /* Adjust the value to make the buttons rounder */
+    padding: 2px 8px;  /* Optional: Adjust the padding to make the buttons bigger or more proportional */
+    border: none;        /* Optional: Removes the border */
+    background-color: rgba(56, 45, 202, 0.5); /* Light blue with 50% transparency */
+    color: white;        /* White text color */
+    font-size: 16px;     /* Adjust the font size */
+    cursor: pointer;     /* Change cursor to pointer when hovered */
+    transition: background-color 0.3s; /* Smooth transition for background color */
+    border: 2px solid black;
+    color: black
+}
+
+button:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+tr:hover {
+    background-color: #e0e0e0;
+}
+#pirateDisplay img {
+    width: 200px; /* Fixed width */
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Ensures the image fills the box without distortion */
+    display: block; /* Ensures the image behaves predictably in the layout */
+    margin: 0 auto; /* Centers the image */
+    border: 2px solid black; /* Adds a border */
+    border-radius: 5px; /* Optional: Adds rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Adds a subtle shadow */
+}
+

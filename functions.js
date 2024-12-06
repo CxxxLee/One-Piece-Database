@@ -10,7 +10,14 @@ const positions = [
     "Doctor",
     "Cook",
     "Sniper",
-    "Left-hand-man"
+    "Navigator",
+    "Archaeologist",
+    "Musician",
+    "Helmsman",
+    "Admiral",
+    "Vice Admiral",
+    "Fodder",
+    "None"
 ];
 
 // Function to make a request using XMLHttpRequest
@@ -38,12 +45,10 @@ function loadPirates() {
     httpRequest.send();
 }
 
-// Call the function to load pirate data
-loadPirates();
-
 // Populate the pirate position dropdown with options
 function populatePositionsDropdown() {
     const positionSelect = document.getElementById('piratePosition');
+    positionSelect.innerHTML = ''; // Clear existing options
     positions.forEach(position => {
         const option = document.createElement('option');
         option.value = position;
@@ -51,6 +56,9 @@ function populatePositionsDropdown() {
         positionSelect.appendChild(option);
     });
 }
+
+// Call the function to load pirate data
+loadPirates();
     
 // Function to display a pirate by index
 function displayPirate(index) {
@@ -243,7 +251,6 @@ document.getElementById('Delete').addEventListener('click', function () {
     httpRequest.send(JSON.stringify({ id: itemId }));
 });
 
-// Save button to update the local pirate data (JSON array)
 document.getElementById('Save').addEventListener('click', function() {
     const pirate = pirates[currentIndex];  // Get the pirate currently being edited        
 
@@ -253,65 +260,36 @@ document.getElementById('Save').addEventListener('click', function() {
     pirate.Affiliation = document.getElementById('affiliation').value;
     pirate.Bounty = parseInt(document.getElementById('pirateBounty').value.replace(/[^0-9]/g, ''), 10) || 0;
     pirate['Devil fruit'] = document.getElementById('pirateDevilFruit').checked;
-    pirate.img = document.getElementById('pirateImagePath').value;  // Assuming you have an img input
+    
+    // Only update the image if a new image has been uploaded
+    const uploadedImage = document.getElementById('pirateImagePath').value;
+    if (uploadedImage) {
+        pirate.img = uploadedImage;  // Set to new uploaded image
+    } else {
+        // If no new image uploaded, keep the current image (don't change)
+        pirate.img = pirate.img || pirate.img;  // Ensure it keeps the current image if no update
+    }
 
     console.log(JSON.stringify(pirates));  // Log the updated pirates array for debugging
 
     // Save this array to localStorage or sessionStorage if needed for persistence across page reloads
     localStorage.setItem('piratesData', JSON.stringify(pirates));
 });
- 
-/*
-// Save button
-document.getElementById('Save').addEventListener('click', function() {
-    let httpRequest = new XMLHttpRequest();
 
-    const pirate = pirates[currentIndex];  // Get the pirate currently being edited        
-    // Update the pirate object with values from the form
-    pirate.Name = document.getElementById('pirateName').value;
-    pirate.Position = document.getElementById('piratePosition').value;
-    pirate.Affiliation = document.getElementById('affiliation').value;
-    pirate.Bounty = parseInt(document.getElementById('pirateBounty').value.replace(/[^0-9]/g, ''), 10) || 0;
-    pirate['Devil fruit'] = document.getElementById('pirateDevilFruit').checked;
-    pirate.img = document.getElementById('pirateImagePath').value;  // Assuming you have an img input
-        
-    // Create the payload with the updated pirate data
-    const dataToSend = { data: pirates };  // Send the whole pirates array or just the updated pirate        
-    httpRequest.onreadystatechange = function () {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            if (httpRequest.status === 200) {
-                try {
-                    const response = JSON.parse(httpRequest.responseText);
-                    if (response.success) {
-                        alert(response.message); // Show success message
-                    } else {
-                        alert(response.message || 'An error occurred.');
-                        console.error(response.errors); // Log any errors
-                    }
-                } catch (error) {
-                    console.error('Invalid JSON response:', httpRequest.responseText);
-                    alert('Unexpected response from the server.');
-                }
-            } else {
-                alert('There was a problem saving the data.');
-            }
-        }
-    };
-        
-    // Prepare the request
-    httpRequest.open('POST', 'save.php');
-    httpRequest.setRequestHeader('Content-Type', 'application/json');
-        
-    // Send the updated pirate data
-    httpRequest.send(JSON.stringify(dataToSend));  
-});
-    
-*/
 // Sort button
 document.getElementById('Sort').addEventListener('click', function() {
-    pirates.sort((a, b) => a.Name.localeCompare(b.Name));
+    pirates.sort((a, b) => 
+        a.Name.trim().toLowerCase().localeCompare(b.Name.trim().toLowerCase())
+    );
+
+    // Log the sorted array to verify the order
+    console.log('Sorted Pirates:', pirates);
+
+    // Refresh the display to show the updated order
+    currentIndex = 0; // Reset to the first pirate after sorting
     displayPirate(currentIndex);
 });
+
         
 
 // Save all button
@@ -340,42 +318,6 @@ document.getElementById('SaveAll').addEventListener('click', function() {
     httpRequest.send(JSON.stringify(dataToSend));
 });
 
-/*
-// Save all button
-document.getElementById('SaveAll').addEventListener('click', function () {
-    const httpRequest = new XMLHttpRequest();
-    
-    console.log(JSON.stringify({ updatedItems: pirates }));
-
-    httpRequest.onreadystatechange = function () {
-        if (httpRequest.readyState === XMLHttpRequest.DONE) {
-            if (httpRequest.status === 200) {
-                const response = JSON.parse(httpRequest.responseText);
-                        
-                // Alert the user about the result
-                alert(`Successfully updated ${response.updated} pirates. ${response.errors} failed.`);
-        
-                // Display the executed queries in a separate table
-                const queriesTable = document.getElementById('queriesTable');
-                const tbody = queriesTable.querySelector('tbody');
-                tbody.innerHTML = ''; // Clear any existing queries
-        
-                response.queries.forEach((query, index) => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `<td>${index + 1}</td><td>${query}</td>`;
-                    tbody.appendChild(row);
-                });
-            } else {
-                alert('There was a problem updating the pirates.');
-            }
-        }
-    };
-        
-    httpRequest.open('POST', 'saveAll.php');
-    httpRequest.setRequestHeader('Content-Type', 'application/json');
-    httpRequest.send(JSON.stringify({ updatedItems: pirates }));
-});
-*/
 
 // Upload file function
 function uploadFile() {

@@ -30,7 +30,13 @@ if ($data && isset($data['data'])) {
         exit;
     }
 
-    // Loop through each pirate and insert or update in the database
+    // Begin transaction for better performance
+    $conn->begin_transaction();
+
+    // Prepare update statement
+    $updateStmt = $conn->prepare("UPDATE Pirates SET `Name` = ?, Bounty = ?, Position = ?, affiliation = ?, `Devil fruit` = ?, img = ? WHERE id = ?");
+    $updateStmt->bind_param("ssssssi", $name, $bounty, $position, $affiliation, $devilFruit, $img, $id);
+
     foreach ($data['data'] as $pirate) {
         $name = $pirate['Name'];
         $bounty = $pirate['Bounty'];
@@ -40,50 +46,27 @@ if ($data && isset($data['data'])) {
         $img = $pirate['img'];
         $id = $pirate['id'];
 
-        // Check if pirate already exists in the table based on the name
-        $checkStmt = $conn->prepare("SELECT id FROM Pirates WHERE `Name` = ?");
-        $checkStmt->bind_param("s", $name);
-        $checkStmt->execute();
-        $checkResult = $checkStmt->get_result();
-
-        if ($checkResult->num_rows === 0) {
-            // Pirate doesn't exist, so insert it
-            $insertStmt = $conn->prepare("INSERT INTO Pirates (`Name`, Bounty, Position, affiliation, `Devil fruit`, img) VALUES (?, ?, ?, ?, ?, ?)");
-            $insertStmt->bind_param("sissis", $name, $bounty, $position, $affiliation, $devilFruit, $img);
-
-            if ($insertStmt->execute()) {
-                echo "Inserted: $name<br>";
-            } else {
-                $response['errors'][] = "Error inserting $name: " . $insertStmt->error;
-            }
-            $insertStmt->close();
-        } else {
-            // Pirate exists, so update the record
-            $updateStmt = $conn->prepare("UPDATE Pirates SET `Name` = ?, Bounty = ?, Position = ?, affiliation = ?, `Devil fruit` = ?, img = ? WHERE id = ?");
-            $updateStmt->bind_param("ssssssi", $name, $bounty, $position, $affiliation, $devilFruit, $img, $id);
-            
-
-            if ($updateStmt->execute()) {
-                echo "Updated: $name<br>";
-            } else {
-                $response['errors'][] = "Error updating $name: " . $updateStmt->error;
-            }
-            $updateStmt->close();
+        // Execute the update statement
+        if (!$updateStmt->execute()) {
+            $response['errors'][] = "Error updating $name (ID $id): " . $updateStmt->error;
         }
-
-        $checkStmt->close(); // Close the check statement after use
     }
 
-    // Close the connection after all pirates are processed
-    $conn->close();
+    // Close the update statement
+    $updateStmt->close();
 
-    // Indicate success if there were no errors
+    // Commit transaction if no errors
     if (empty($response['errors'])) {
+        $conn->commit();
         $response['success'] = true;
         $response['message'] = 'Data successfully saved.';
     } else {
-        $response['message'] = 'Some errors occurred.';
+        $conn->rollback(); // Rollback transaction if errors occurred
+        $response['message'] = 'Some errors occurred during saving.';
     }
+
+    // Close the database connection
+    $conn->close();
 } else {
     $response['message'] = 'No data found to save.';
 }

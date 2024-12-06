@@ -13,9 +13,9 @@
         <source src="img/ship6.mp4" type="video/mp4">
     </video>
 </div> 
-<fieldset>
+<fieldset class="main">
+
         <legend>One Piece Databook</legend>
-        <p>Use the navigation buttons to view information about different pirates.</p>
     <div id="pirateDisplay">
         <label for="pirateName">Name:</label>
         <input type="text" id="pirateName"><br>
@@ -35,10 +35,9 @@
         <input type="checkbox" id="pirateDevilFruit"><br>
 
         <img id="pirateImage" src="" alt="Pirate Image">
-        <input type="hidden" id="pirateImagePath">
+        <input type="hidden" id="pirateImagePath" value ="">
 
     </div>
-</fieldset>
 
 <fieldset class="navSection">
     <div>
@@ -59,8 +58,8 @@
         <button id="Insert">Insert</button>
         <button id="Delete">Delete</button>
         <button id="Save">Save</button>
-        <button id="Sort">Sort</button>
-        <button id="SaveAll">Save All</button>
+        <button id="Sort">A-Z</button>
+        <button id="SaveAll">Update</button>
         <button type="button" onclick="document.getElementById('fileInput').click()">Upload Image</button>
         <input type="file" id="fileInput" style="display: none;" onchange="uploadFile()">
     </div>
@@ -69,7 +68,7 @@
 
 <script src="functions.js"></script>
 <!-- Table to display pirates (already exists in your app) -->
- <fieldset class="pirateTable">
+<fieldset class="pirateTable">
 <table id="piratesTable">
     <thead>
         <tr>
