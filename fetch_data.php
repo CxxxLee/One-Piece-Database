@@ -105,6 +105,7 @@ foreach ($pirates as $pirate) {
 
 // Close the statement and connection
 $stmt->close();
+
 $conn->close();
 
 ?>
