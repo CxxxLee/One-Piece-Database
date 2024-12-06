@@ -23,7 +23,7 @@ const positions = [
 // Load the pirates data initially
 function loadPirates() {
     const httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = function() {
+    httpRequest.onreadystatechange = function () {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
                 pirates = JSON.parse(httpRequest.responseText);
@@ -35,9 +35,12 @@ function loadPirates() {
                     }
                 });
 
+                // Save the default order after pirates are loaded
+                defaultPirates = [...pirates];
+
                 // Populate the table with the first pirate
-                displayPirate(currentIndex);  // Display the first pirate's details
-                populatePositionsDropdown();  // Populate the position dropdown
+                displayPirate(currentIndex); // Display the first pirate's details
+                populatePositionsDropdown(); // Populate the position dropdown
             } else {
                 alert('There was a problem with the request.');
             }
@@ -46,6 +49,7 @@ function loadPirates() {
     httpRequest.open('GET', 'read_json.php');
     httpRequest.send();
 }
+
 
 
 // Populate the pirate position dropdown with options
@@ -290,19 +294,32 @@ document.getElementById('Save').addEventListener('click', function() {
     updateQueryTable(pirate);  // Update the table with the modified pirate
 });
 
-// Sort button
-document.getElementById('Sort').addEventListener('click', function() {
-    pirates.sort((a, b) => 
-        a.Name.trim().toLowerCase().localeCompare(b.Name.trim().toLowerCase())
-    );
+// Save the default order
+let defaultPirates = [...pirates]; // creates a shallow copy
+let isSorted = false; // Flag to track the current state (sorted or default)
 
-    // Log the sorted array to verify the order
-    console.log('Sorted Pirates:', pirates);
+// Sort button
+document.getElementById('Sort').addEventListener('click', function () {
+    if (isSorted) {
+        // If currently sorted, reset to the default order
+        pirates = [...defaultPirates];
+        console.log('Default Order:', pirates);
+    } else {
+        // If in default order, sort A-Z
+        pirates.sort((a, b) =>
+            a.Name.trim().toLowerCase().localeCompare(b.Name.trim().toLowerCase())
+        );
+        console.log('Sorted Pirates:', pirates);
+    }
+
+    // Toggle the state
+    isSorted = !isSorted;
 
     // Refresh the display to show the updated order
-    currentIndex = 0; // Reset to the first pirate after sorting
+    currentIndex = 0; // Reset to the first pirate after sorting/resetting
     displayPirate(currentIndex);
 });
+
 
         
 
