@@ -20,22 +20,24 @@ const positions = [
     "None"
 ];
 
-// Function to make a request using XMLHttpRequest
+// Load the pirates data initially
 function loadPirates() {
     const httpRequest = new XMLHttpRequest();
     httpRequest.onreadystatechange = function() {
         if (httpRequest.readyState === XMLHttpRequest.DONE) {
             if (httpRequest.status === 200) {
                 pirates = JSON.parse(httpRequest.responseText);
-                // Add unique ID to each pirate if not already present
+
+                // Ensure each pirate has an 'id' if it doesn't already exist
                 pirates.forEach((pirate, index) => {
-                // Assign the ID if it doesn't already exist
-                if (!pirate.hasOwnProperty('id')) {
-                    pirate.id = index + 1;  // Assign a unique ID based on the index
-                }
-            });
-            populatePositionsDropdown();
-            displayPirate(currentIndex);
+                    if (!pirate.hasOwnProperty('id')) {
+                        pirate.id = index + 1; // Assign a unique ID based on the index
+                    }
+                });
+
+                // Populate the table with the first pirate
+                displayPirate(currentIndex);  // Display the first pirate's details
+                populatePositionsDropdown();  // Populate the position dropdown
             } else {
                 alert('There was a problem with the request.');
             }
@@ -44,6 +46,7 @@ function loadPirates() {
     httpRequest.open('GET', 'read_json.php');
     httpRequest.send();
 }
+
 
 // Populate the pirate position dropdown with options
 function populatePositionsDropdown() {
@@ -72,9 +75,14 @@ function displayPirate(index) {
     // Select the pirate's current position in the dropdown
     document.getElementById('piratePosition').value = pirate.Position;
 
-    //get current position
+    // Update the current position display
     document.getElementById('currentPosition').textContent = `${currentIndex + 1} / ${pirates.length}`;
+
+    // Update the table to show only the current pirate (You can use this function for the table)
+    updateQueryTable(pirate);
 }
+
+
 
 function getPirateIndex(index){
     const httpRequest = new XMLHttpRequest();
@@ -113,6 +121,7 @@ document.getElementById('lastButton').addEventListener('click', function() {
     currentIndex = pirates.length - 1;
     displayPirate(currentIndex);
 });
+
 
 // Edit mode
 document.addEventListener('DOMContentLoaded', function() {
@@ -274,6 +283,8 @@ document.getElementById('Save').addEventListener('click', function() {
 
     // Save this array to localStorage or sessionStorage if needed for persistence across page reloads
     localStorage.setItem('piratesData', JSON.stringify(pirates));
+
+    updateQueryTable(pirate);  // Update the table with the modified pirate
 });
 
 // Sort button
@@ -364,9 +375,22 @@ function uploadFile() {
     }
 }
 
+function updateQueryTable(pirate) {
+    const tableBody = document.getElementById('query-table-body');
+    tableBody.innerHTML = ''; // Clear existing rows
 
- 
+    // Create a row for the current pirate
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${pirate.id}</td>
+        <td>${pirate.Name}</td>
+        <td>${pirate.Position}</td>
+        <td>${pirate.Affiliation}</td>
+        <td>${pirate.Bounty.toLocaleString()}</td>
+        <td>${pirate['Devil fruit'] === '0' ? 'True' : 'False'}</td>
+        <td>${pirate.img}</td>
+    `;
+    tableBody.appendChild(row);
+}
 
-
-        
 

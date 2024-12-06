@@ -65,41 +65,33 @@
     </div>
 
 </fieldset>
+</fieldset>
 
 <script src="functions.js"></script>
 <!-- Table to display pirates (already exists in your app) -->
-<fieldset class="pirateTable">
-<table id="piratesTable">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Bounty</th>
-            <th>Position</th>
-            <th>Affiliation</th>
-            <th>Devil Fruit</th>
-            <th>Image</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Existing pirate data rows -->
-    </tbody>
-</table>
+<div class="query-display">
+    <h2>Data Browser String</h2>
+    <div class="query-table-container">
+        <table id="query-table" class="query-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Affiliation</th>
+                    <th>Bounty</th>
+                    <th>Devil Fruit</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody id="query-table-body" class="tBody">
+                <!-- Data will be populated here via JavaScript -->
+            </tbody>
+        </table>
+    </div>
+</div>
 
-<!-- Table to display executed queries -->
-<h3>Executed Queries</h3>
-<table id="queriesTable">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Query</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Populated dynamically by JavaScript -->
-    </tbody>
-</table>
-</fieldset>
+
 
 </body>
 </html>
