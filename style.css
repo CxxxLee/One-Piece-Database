@@ -19,31 +19,31 @@ label {
 
 input, select, textarea {
     font-weight: bold;
-    border-radius: 8px; /* Adjust the value to control the roundness */
-    padding: 4px; /* Optional: add padding to make the input feel more spacious */
-    border: 1px solid #ccc; /* Optional: set a light border for better visibility */
-    font-size: 16px; /* Adjust the font size for better readability */
+    border-radius: 8px; /* control the roundness */
+    padding: 4px; 
+    border: 1px solid #ccc; 
+    font-size: 16px; 
     background-color: rgba(56, 45, 202, 0.5); /* Light blue with 50% transparency */
     border: 2px solid black;
     color: black;
 }
 
 input[type="radio"] {
-    border-radius: 50%; /* Make radio buttons perfectly round */
+    border-radius: 50%; 
     margin: 5px;
 }
 
 legend {
-    font-size: 30px;  /* Increase font size */
-    font-weight: bold;  /* Make the text bold */
-    color: white;  /* Set the text color to white for contrast */
+    font-size: 30px;  
+    font-weight: bold;  
+    color: white;
     text-align: center;  /* Center-align the text */
-    padding: 10px;  /* Add some padding around the text */
+    padding: 10px;  
     border-radius: 15px;  /* Round the corners */
     background: linear-gradient(45deg, purple, blue, orange);  /* Initial gradient */
     background-size: 300% 300%;  /* Enlarge the gradient */
     animation: moveGradient 5s ease infinite;  /* Animate the gradient */
-    border: 2px solid #003366;  /* Optional border around the legend */
+    border: 2px solid #003366;  
 }
 
 /* Animation for moving the gradient */
@@ -179,8 +179,7 @@ tr:hover {
 .query-table-container {
     margin: 20px auto;
     width: 95%;
-    max-width: 1200px; /* Optional: Set a max width for responsiveness */
-}
+    max-width: 1200px; 
 
 .query-table {
     background-color: rgba(255, 255, 255, 0.5); /* White background with 50% transparency */
@@ -192,18 +191,17 @@ tr:hover {
 
 .query-table th, .query-table td {
     font-weight: bold;
-    border: 1px solid #ddd; /* Light border for cells */
-    padding: 8px 10px; /* Slightly larger padding for better spacing */
+    border: 1px solid #ddd;
+    padding: 8px 10px; 
     text-align: center;
-    background-color: #f2f2f2; /* Light gray background */
-    color: black; /* Black text color */
-    font-size: 16px; /* Adjust font size for readability */
-}
+    background-color: #f2f2f2; 
+    color: black; 
+    font-size: 16px; 
 
 .query-table th {
     background-color: rgba(56, 45, 202, 0.5); /* Matching header background */
-    color: white; /* White text for header */
-    font-weight: bold; /* Make header text bold */
+    color: white;
+    font-weight: bold; 
 }
 
 .query-table td {
@@ -227,18 +225,18 @@ tr:hover {
 
 .query-display h2 {
     font-size: 28px; /* Set the font size for the header */
-    font-weight: bold; /* Make the font bold */
-    color: white; /* Light blue text color */
+    font-weight: bold;
+    color: white; 
 
-    padding: 2px 10px; /* Add padding around the header */
+    padding: 2px 10px; 
     border-radius: 10px; /* Rounded corners */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow to the text */
-    margin-bottom: 5px; /* Add margin below the header for spacing */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow to make the header pop */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow to the text */
+    margin-bottom: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     border: 2px solid black;
-    width: fit-content; /* Adjust the width to fit the content */
-    margin-left: auto; /* Align to the right */
-    margin-right: auto; /* Center horizontally */
+    width: fit-content; 
+    margin-left: auto; 
+    margin-right: auto; 
     text-align: center; /* Center the text inside the header */
     background: linear-gradient(45deg, purple, blue, orange);  /* Initial gradient */
     background-size: 300% 300%; /* Enlarge the background for movement */
